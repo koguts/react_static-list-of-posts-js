@@ -8,10 +8,13 @@ import postsFromServer from './api/posts.json';
 import commentsFromServer from './api/comments.json';
 import usersFromServer from './api/users.json';
 
+const findUserById = (users, userId) => users.find(user => user.id === userId);
+const filterCommentsByPostId = (comments, postId) =>
+  comments.filter(comment => comment.postId === postId);
 const preparedPosts = postsFromServer.map(post => ({
   ...post,
-  user: usersFromServer.find(user => user.id === post.userId),
-  comments: commentsFromServer.filter(comment => comment.postId === post.id),
+  user: findUserById(usersFromServer, post.userId),
+  comments: filterCommentsByPostId(commentsFromServer, post.id),
 }));
 
 export const App = () => (
